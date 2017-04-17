@@ -45,7 +45,15 @@
                password: md5(_this.ruleForm.loginPwd)
              })
              .then(function (response) {
-               _this.$router.replace('/home')
+                if (response.body.statusCode == 2000000) {
+                 _this.$router.replace('/home')
+                } else {
+                 _this.$message({
+                     showClose: true,
+                     message: errorStatus[response.body.statusCode],
+                     type: 'error'
+                 });
+                }
              })
              .catch(function (error) {
                console.log(error)

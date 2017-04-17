@@ -17,6 +17,7 @@
 </template>
  <script type="text/ecmascript-6">
    import md5 from 'md5'
+   import errorStatus from '../../config/errorStatus'
    export default {
      data () {
        return {
@@ -53,10 +54,18 @@
                   email: _this.ruleForm.email
                 })
                 .then(function (response) {
-                  _this.$router.replace('/home')
+                  if (response.body.statusCode == 2000000) {
+                      _this.$router.replace('/home')
+                  } else {
+                      _this.$message({
+                          showClose: true,
+                          message: errorStatus[response.body.statusCode],
+                          type: 'error'
+                      });
+                  }
                 })
                 .catch(function (error) {
-                  console.log(error)
+                    console.log(error)
                 })
            } else {
                 console.log('error submit!!')

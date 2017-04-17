@@ -20,8 +20,11 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'home',
-      component: home
+      name: '首页',
+      component: index,
+      children: [
+        {path: '/home', component: home, name: '首页'}
+      ]
     },
     {
       path: '/product',
