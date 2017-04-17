@@ -7,17 +7,17 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 import vueResource from 'vue-resource';
 import errorStatus from './config/errorStatus';
-import cookies from 'js-cookie';
+let cookies = require('js-cookie');
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(vueResource);
-Vue.use(Vuecookies);
+
 
 router.beforeEach(({path}, from, next) => {
-    if ( !cookies.get('user') && path !== '/login') {
-        next({path: '/login'});
-    } else if (path == '/') {
+    if ( cookies.get('user') && path == '/login' ) {
         next({path: '/home'});
+    } else if ( !cookies.get('user') &&  path !== '/login' ) {
+        next({path: '/login'});
     } else {
         next();
     }
@@ -30,9 +30,7 @@ let app = new Vue({
   components: { App }
 })
 
-
 Vue.http.interceptors.push((request, next) => {
-    debugger
     app.$root.$children[0].loading = true
     next((response) => {
         app.$root.$children[0].loading = false

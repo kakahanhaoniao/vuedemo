@@ -16,7 +16,7 @@
  <script type="text/ecmascript-6">
    import md5 from 'md5';
    import errorStatus from '../../config/errorStatus';
-   import cookies from 'js-cookie';
+   let cookies = require('js-cookie');
    export default {
      data () {
        return {
@@ -48,7 +48,7 @@
              })
              .then(function (response) {
                 if (response.body.statusCode == 2000000) {
-                    cookies.set('user', JSON.parse(response.body.data));
+                    cookies.set('user', response.body.data, { expires: 7 });
                     _this.$router.replace('/home');
                 } else {
                  _this.$message({
