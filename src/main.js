@@ -9,7 +9,6 @@ import store from 'vuex'
 // import axios from 'axios'
 import vueResource from 'vue-resource'
 import errorStatus from './config/errorStatus'
-debugger
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(store)
@@ -28,12 +27,11 @@ router.beforeEach()
 Vue.http.interceptors.push((request, next) => {
   debugger
   next((response) => {
-    if (response && response.body && response.body.statusCode === 2000000) {
-      return response
-    } else if (response && response.body && response.body.statusCode === 2000403) {
+    if (response && response.body && response.body.statusCode === 2000403) {
       router.replace('/')
-    } else {
       return new Error(errorStatus[response.body.statusCode])
+    } else {
+      return response
     }
   })
 })
