@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    sddsffdsfds
+    此处是版权信息
   </div>
 </template>
 

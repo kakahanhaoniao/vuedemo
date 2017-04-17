@@ -1,12 +1,18 @@
 <template>
-  <div id="app">
+  <div id="app" v-loading="loading" element-loading-text="数据请求中">
     <router-view></router-view>
   </div>
+
 </template>
 
 <script>
 export default {
-  name: 'app'
+    name: 'app',
+    data () {
+        return {
+            loading: false
+        }
+    }
 }
 </script>
 
