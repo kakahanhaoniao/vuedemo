@@ -1,17 +1,20 @@
 <template>
-  <div id="app" v-loading="loading" element-loading-text="数据请求中">
+  <div id="app" v-loading="global.loading" element-loading-text="数据请求中">
+  <!-- <div id="app" class="loading" element-loading-text="数据请求中"> -->
     <router-view></router-view>
   </div>
 
 </template>
 
-<script>
+<script type="text/ecmascript-6">
+import { mapGetters } from 'vuex'
+debugger;
 export default {
     name: 'app',
-    data () {
-        return {
-            loading: false
-        }
+    computed: {
+        ...mapGetters({
+            global: 'global'
+        })
     }
 }
 </script>

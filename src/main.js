@@ -5,13 +5,12 @@ import App from './App';
 import router from './router';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
-import vueResource from 'vue-resource';
-import errorStatus from './config/errorStatus';
+import store from './vuex/index';
+import { sync } from 'vuex-router-sync';
 let cookies = require('js-cookie');
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
-Vue.use(vueResource);
-
+sync(store, router);
 
 router.beforeEach(({path}, from, next) => {
     if ( cookies.get('user') && path == '/login' ) {
@@ -26,19 +25,7 @@ router.beforeEach(({path}, from, next) => {
 let app = new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
-})
-
-Vue.http.interceptors.push((request, next) => {
-    app.$root.$children[0].loading = true
-    next((response) => {
-        app.$root.$children[0].loading = false
-        if (response && response.body && response.body.statusCode === 2000403) {
-          router.replace('/')
-          return new Error(errorStatus[response.body.statusCode])
-        } else {
-          return response
-        }
-    })
 })
