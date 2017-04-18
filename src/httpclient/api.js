@@ -28,12 +28,8 @@ export default {
         return axios({
             method: 'post',
             url: url,
-            data: JSON.stringify(data),
-            timeout: 3000,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-            }
+            data,
+            timeout: 3000
         })
     },
     get(url, params) {

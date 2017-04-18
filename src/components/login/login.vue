@@ -15,26 +15,35 @@
 
  <script type="text/ecmascript-6">
     import { mapGetters } from 'vuex'
-   export default {
+    let cookies = require('js-cookie');
+    export default {
      computed: {
-         ...mapGetters({
-             login: 'login'
-         })
-     },
-     methods: {
-       async submitForm (formName) {
-         const _this = this
-         this.$refs[formName].validate((valid) => {
-           if (valid) {
-               this.$store.dispatch('login');
-           } else {
-               this.$store.dispatch('showMsg', '请输入用户名和密码!');
-           }
-         })
+        ...mapGetters({
+          login: 'login'
+        })
        },
-       resetForm (formName) {
-         this.$refs[formName].resetFields()
-       }
+     methods: {
+        submitForm (formName) {
+          this.$refs[formName].validate(async (valid) => {
+           if (valid) {
+              debugger
+              let loginRs =await this.$store.dispatch('login');
+              if (loginRs.data.statusCode == 2000000) {
+                cookies.set('user', loginRs.data.data, { expires: 7 });
+                this.$store.dispatch('isLogin', true);
+                this.$router.replace('/home');
+              } else {
+                this.$store.dispatch('showMsg', {error:loginRs.data.statusCode, isCode: 1})
+              }
+            } else {
+              return false;
+               this.$store.dispatch('showMsg', {error:'请输入用户名和密码!'});
+            }
+          })
+        },
+        resetForm (formName) {
+          this.$refs[formName].resetFields()
+        }
      }
    }
  </script>

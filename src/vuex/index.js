@@ -8,7 +8,16 @@ console.log(login)
 console.log(globals)
 export default new Vuex.Store({
     modules: {
-        login: login,
+        login,
         global: globals
     }
+    // modules: {
+    //   login,
+    //   global: {
+    //     namespaced: true,
+    //     modules: {
+    //       global:globals
+    //     }
+    //   }
+    // }
 })
