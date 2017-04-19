@@ -1,11 +1,10 @@
 import axios from 'axios';
 import store from '../vuex';
 import router from '../router';
-import errorStatus from '../config/errorStatus';
 
 axios.interceptors.request.use(request => {
     debugger
-    store.dispatch('loading', true);
+    store.dispatch('global/loading', true);
     return request
 }, error => {
     return Promise.reject(error)
@@ -13,10 +12,10 @@ axios.interceptors.request.use(request => {
 
 axios.interceptors.response.use(response => {
     debugger
-    store.dispatch('loading', false);
+    store.dispatch('global/loading', false);
     if (response && response.body && response.body.statusCode === 2000403) {
       router.replace('/')
-      return new Error(errorStatus[response.body.statusCode])
+      return new Error(store.state.getStatus[response.body.statusCode])
     } else {
       return response
     }
@@ -42,6 +41,5 @@ export default {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
-    },
-    errorStatus
+    }
 }

@@ -1,23 +1,19 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import globals from './module/global'
-import login from './module/login'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import globals from './module/global';
+import login from './module/login';
+import errorStatus from './module/errorStatus';
 Vue.use(Vuex)
-debugger;
-console.log(login)
-console.log(globals)
 export default new Vuex.Store({
     modules: {
         login,
-        global: globals
+        global: {
+            namespaced: true,
+            modules: {
+              global:globals,
+              errorStatus
+            }
+        }
     }
-    // modules: {
-    //   login,
-    //   global: {
-    //     namespaced: true,
-    //     modules: {
-    //       global:globals
-    //     }
-    //   }
-    // }
+
 })

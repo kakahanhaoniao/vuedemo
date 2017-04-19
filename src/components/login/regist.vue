@@ -1,13 +1,13 @@
 <template>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form :model="regist.ruleForm" :rules="regist.rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="ruleForm.username" auto-complete="off"></el-input>
+        <el-input v-model="regist.ruleForm.username" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="ruleForm.password" auto-complete="off"></el-input>
+        <el-input type="password" v-model="regist.ruleForm.password" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
-        <el-input type="email" v-model="ruleForm.email" auto-complete="off"></el-input>
+        <el-input type="email" v-model="regist.ruleForm.email" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
@@ -16,70 +16,39 @@
     </el-form>
 </template>
  <script type="text/ecmascript-6">
-   import md5 from 'md5';
-   import errorStatus from '../../config/errorStatus';
-   let cookies = require('js-cookie');
-   export default {
-     data () {
-       return {
-         ruleForm: {
-           loginUser: '',
-           email: '',
-           loginPwd: ''
-         },
-         rules: {
-           username: [
-             { required: true, message: '请输入用户名', trigger: 'blur' },
-             { min: 3, message: '最少输入3个字符', trigger: 'blur' }
-           ],
-           password: [
-             { required: true, message: '请输入密码', trigger: 'blur' },
-             { min: 6, message: '最少输入6个字符', trigger: 'blur' }
-            ],
-             email: [
-                {required: true, message: '请输入邮箱', trigger: 'blur'},
-                { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
-             ]
-         }
-       }
-     },
-     methods: {
-       submitForm (formName) {
-         const _this = this
-         this.$refs[formName].validate((valid) => {
-           if (valid) {
-                debugger
-                _this.$http.post('/api/admin/regist', {
-                  username: _this.ruleForm.username,
-                  password: md5(_this.ruleForm.password),
-                  email: _this.ruleForm.email
+    import md5 from 'md5';
+    import { mapGetters } from 'vuex'
+    export default {
+        computed: {
+            ...mapGetters({
+               regist: 'regist'
+            })
+        },
+        methods: {
+            submitForm (formName) {
+                this.$refs[formName].validate(async (valid) => {
+                    if (valid) {
+                        let registRs = await this.$store.dispatch('regist');
+                        if (registRs.data.statusCode == 2000000) {
+                            this.$store.dispatch('global/setCookie', {
+                                name: 'user',
+                                data: registRs.data.data
+                            });
+                            this.$store.dispatch('global/isLogin', true);
+                            this.$router.replace('/home');
+                        } else {
+                            this.$store.dispatch('global/showMsg', {error:registRs.data.statusCode, isCode: 1});
+                        }
+                    } else {
+                        return false;
+                    }
                 })
-                .then(function (response) {
-                  if (response.body.statusCode == 2000000) {
-                      cookies.set('user', response.body.data);
-                      _this.$router.replace('/home')
-                  } else {
-                      _this.$message({
-                          showClose: true,
-                          message: errorStatus[response.body.statusCode],
-                          type: 'error'
-                      });
-                  }
-                })
-                .catch(function (error) {
-                    console.log(error)
-                })
-           } else {
-                console.log('error submit!!')
-                return false
-           }
-         })
-       },
-       resetForm (formName) {
-         this.$refs[formName].resetFields()
-       }
-     }
-   }
+            },
+            resetForm (formName) {
+                this.$refs[formName].resetFields()
+            }
+        }
+    }
  </script>
 
  <style>

@@ -13,6 +13,7 @@ Vue.use(ElementUI);
 sync(store, router);
 
 router.beforeEach(({path}, from, next) => {
+    debugger
     if ( cookies.get('user') && store.state.global.isLogin && path == '/login' ) {
         next({path: '/home'});
     } else if ( !cookies.get('user') &&  path !== '/login' ) {

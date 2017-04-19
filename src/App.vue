@@ -13,7 +13,7 @@ export default {
     name: 'app',
     computed: {
         ...mapGetters({
-            global: 'global'
+            global: 'global/global'
         })
     }
 }
