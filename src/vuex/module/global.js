@@ -23,7 +23,6 @@ const actions = {
         commit('isLogin', isLogin);
     },
     ['setCookie'] ({commit, state}, {name, data}) {
-        debugger
         if (data) {
             cookies.set(name, data, { expires: 7 });
         }
@@ -47,7 +46,6 @@ const getters = {
         return state;
     }
 };
-console.log(actions)
 export default {
     actions,
     state,

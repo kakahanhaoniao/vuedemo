@@ -18,19 +18,7 @@
 </template>
 
  <script type="text/ecmascript-6">
-    export default {
-      methods: {
-        clickfn () {
-          debugger
-        }
-      },
-      computed: {
-        handle () {
-          debugger
-          console.log('ss')
-        }
-      }
-    }
+    export default {}
  </script>
 
  <style>

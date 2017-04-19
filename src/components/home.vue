@@ -18,7 +18,6 @@
 <script type="text/ecmascript-6">
 import leftMenu from '../components/public/leftMenu.vue'
 import publicFooter from '../components/public/footer.vue'
-debugger
 export default {
   components: {
     leftMenu,

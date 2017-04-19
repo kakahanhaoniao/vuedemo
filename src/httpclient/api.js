@@ -3,7 +3,6 @@ import store from '../vuex';
 import router from '../router';
 
 axios.interceptors.request.use(request => {
-    debugger
     store.dispatch('global/loading', true);
     return request
 }, error => {
@@ -11,7 +10,6 @@ axios.interceptors.request.use(request => {
 })
 
 axios.interceptors.response.use(response => {
-    debugger
     store.dispatch('global/loading', false);
     if (response && response.body && response.body.statusCode === 2000403) {
       router.replace('/')

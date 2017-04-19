@@ -25,10 +25,7 @@
             submitForm (formName) {
                 this.$refs[formName].validate(async (valid) => {
                     if (valid) {
-                        debugger
-                        console.log(this)
                         let loginRs =await this.$store.dispatch('login');
-                        console.log(loginRs)
                         if (loginRs.data.statusCode == 2000000) {
                             this.$store.dispatch('global/setCookie', {
                                 name: 'user',
