@@ -3,8 +3,7 @@ import api from '../../httpclient/api';
 let cookies = require('js-cookie');
 const state = {
     loading: false,
-    progress: 0,
-    isLogin: false
+    progress: 0
 };
 
 const actions = {
@@ -19,9 +18,6 @@ const actions = {
             duration: 3000
         });
     },
-    ['isLogin']({commit, state}, isLogin){
-        commit('isLogin', isLogin);
-    },
     ['setCookie'] ({commit, state}, {name, data}) {
         if (data) {
             cookies.set(name, data, { expires: 7 });
@@ -35,10 +31,7 @@ const actions = {
 const mutations = {
     ['loading'](state, loading) {
         state.loading = loading;
-    },
-    ['isLogin'](state, isLogin) {
-        state.isLogin = isLogin;
-    },
+    }
 };
 
 const getters = {

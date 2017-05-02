@@ -7,13 +7,13 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 import store from './vuex/index';
 import { sync } from 'vuex-router-sync';
-let cookies = require('js-cookie');
+const cookies = require('js-cookie');
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 sync(store, router);
 
 router.beforeEach(({path}, from, next) => {
-    if ( cookies.get('user') && store.state.global.isLogin && path == '/login' ) {
+    if ( cookies.get('user') && path == '/login' ) {
         next({path: '/home'});
     } else if ( !cookies.get('user') &&  path !== '/login' ) {
         next({path: '/login'});

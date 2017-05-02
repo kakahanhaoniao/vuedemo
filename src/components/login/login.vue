@@ -31,7 +31,6 @@
                                 name: 'user',
                                 data: loginRs.data.data
                             });
-                            this.$store.dispatch('global/isLogin', true);
                             this.$router.replace('/home');
                         } else {
                             this.$store.dispatch('global/showMsg', {error:loginRs.data.statusCode, isCode: 1})
